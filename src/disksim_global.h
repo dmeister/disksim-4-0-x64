@@ -251,7 +251,7 @@ typedef struct foo {
    int    temp;
 } foo;
 
-#define DISKSIM_EVENT_SIZE	128
+#define DISKSIM_EVENT_SIZE	256
 #define DISKSIM_EVENT_SPACESIZE	(DISKSIM_EVENT_SIZE - sizeof(struct foo))
 
 typedef struct ev {

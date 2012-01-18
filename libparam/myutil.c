@@ -150,7 +150,7 @@ lp_new_param(char *name, char *source, struct lp_value *v)
 {
   struct lp_param *result = calloc(1, sizeof(struct lp_param));
   result->source_file = source;
-  result->name = name;
+  result->name = strdup(name);
   result->v = v;
   
 

@@ -1935,10 +1935,10 @@ g1_get_zone(struct dm_disk_if *d,
 	    struct dm_layout_zone *result)
 {
   struct dm_layout_g1 *l = (struct dm_layout_g1 *)d->layout;
-  struct dm_layout_g1_band *z;
+  struct dm_layout_g1_band *z = calloc(sizeof(struct dm_layout_g1_band), 1);
 
   // check args  
-  if(z == 0) { return -1; }
+  if(z == NULL) { return -1; }
   if(n < 0 || n >= l->bands_len) { return -1; }
 
   z = &l->bands[n];

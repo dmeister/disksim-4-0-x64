@@ -248,13 +248,13 @@ st_pbn(struct dm_disk_if *d,
 
   // return st for the nearest (lower) zone if this cyl is unmapped
   while(!(z = find_zone_pbn(d, &p2)) && p2.cyl >= 0) { p2.cyl--; }
-  ddbg_assert(z);
+  ddbg_assert(z != NULL);
 
   return z->st;
 }
 
 
-static void
+static dm_ptol_result_t
 track_boundaries(struct dm_disk_if *d,
 		 struct dm_pbn *p,
 		 int *l1,
@@ -283,6 +283,7 @@ track_boundaries(struct dm_disk_if *d,
       *l2 = d->layout->dm_translate_ptol(d, &p2, remapsector);
     } while((*l2 == DM_NX) && p2.sector);
   }
+  return DM_OK;
 }
 
 static dm_angle_t

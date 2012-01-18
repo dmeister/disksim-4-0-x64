@@ -354,7 +354,7 @@ fprintf (outputfile, "devno %d, depth %d, currbus %d, inslotno %d, master %d\n",
 
 
 
-static int iosim_load_map(struct lp_block *b, int n) {
+static int iosim_load_map(struct lp_block *b, int64_t n) {
   int c;
   int i = 0;
   char *s = 0; 

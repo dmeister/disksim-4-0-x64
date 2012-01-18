@@ -937,12 +937,15 @@ int lp_add_param(struct lp_param ***b, int *plen,
       (*b)[c] = p;
       break;
     }
+    printf("%d: name =%s\n", c, (*b)[c]->name);
   }
+  fflush(stdout);
   if(c == *plen) {
     /* didn't find a free slot -- double the array */
     int newlen = 2 * (*plen) + 1;
-    (*b) = realloc((*b), newlen * sizeof(int *));
-    bzero((int *)(*b) + *plen, ((*plen) + 1) * sizeof(int*));
+   struct lp_param **new = calloc(newlen, sizeof(struct lp_param *));
+    memcpy(new, *b, (*plen) * sizeof(struct lp_param *));
+   (*b) = new;
     (*b)[(*plen)] = p;
     *plen = newlen;
   }

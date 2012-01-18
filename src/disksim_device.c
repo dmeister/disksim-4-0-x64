@@ -139,20 +139,23 @@ void device_add(struct device_header *d, int ldevno) {
   /* note that numdisks must be equal to diskinfo->disks_len */
   newlen = numdevices ? (2 * numdevices) : 2;
   zerocnt = (newlen == 2) ? 2 : (newlen/2);
-  disksim->deviceinfo->devicenames = 
-    realloc(disksim->deviceinfo->devicenames, newlen * sizeof(char *));
-  bzero(disksim->deviceinfo->devicenames + c, zerocnt * sizeof(char *));
-
-  devicenos = realloc(devicenos, newlen*sizeof(int));
-  bzero(devicenos + c, zerocnt * sizeof(int));
-
-  devicetypes = realloc(devicetypes, newlen*sizeof(int));
-  bzero(devicetypes + c, zerocnt * sizeof(int));
-
-  disksim->deviceinfo->devices = realloc(disksim->deviceinfo->devices, 
-					 newlen*sizeof(int));
-  bzero(disksim->deviceinfo->devices + c, zerocnt * sizeof(int));
-
+  char **tmpdevname = calloc(newlen, sizeof(char *));
+  int *newdevnos    = calloc(newlen, sizeof(int));
+  int *newdevtypes  = calloc(newlen, sizeof(int));
+  struct deviceheader **newdevs = calloc(newlen, sizeof(struct deviceheader *));
+ 
+       if (numdevices){
+             memcpy(tmpdevname, disksim->deviceinfo->devicenames, numdevices * sizeof(char*));
+            memcpy(newdevnos, devicenos, numdevices * sizeof(int));
+             memcpy(newdevtypes, devicetypes, numdevices * sizeof(int));
+             memcpy(newdevs, disksim->deviceinfo->devices,
+                     numdevices * sizeof(struct deviceheader *));
+           }
+         
+           disksim->deviceinfo->devicenames = tmpdevname;
+         devicenos = newdevnos;
+          devicetypes = newdevtypes;
+          disksim->deviceinfo->devices = newdevs;
   disksim->deviceinfo->devs_len = newlen;
 
  foundslot:
